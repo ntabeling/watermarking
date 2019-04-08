@@ -6,9 +6,7 @@ There are some ignored files that contributors will need to create before gettin
 
 `mkdir outfolder` - Outfolder is the folder where photos are dropped after the watermark is applied.
 
+`touch config.ini` - Create a config to store useful paths.
 
-```
-touch config.ini
-echo "[PATHS]\nincsv = <path/to/csv/ofwatermarks>\nimgin = <path/to/infolder>\nimgout = <path/to/outfolder>" >> config.ini
-``` - This config stores relevant paths, like the in and out folders and the path to the csv that will tell the watermarker what to put on each image. After running the command, open config.ini in an editor and modify the paths. Don't forget the quotes.
+`echo "[PATHS]\nincsv = <path/to/csv/ofwatermarks>\nimgin = <path/to/infolder>\nimgout = <path/to/outfolder>" >> config.ini` - This command gets your config in line with mine so we can be working from the same base, without me having to push my actual configs.
 
