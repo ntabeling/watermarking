@@ -1,5 +1,4 @@
 # Photo Watermarking
-
 ### Watermark images using python 3 and the PIL library
 
 There are some ignored files that contributors will need to create before getting started. In your terminal, navigate to your working directory then run the following commands:
