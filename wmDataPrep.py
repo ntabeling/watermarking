@@ -19,15 +19,15 @@ def wmDictCreator(table):
             date = datetime.strptime(datestring, '%Y%m%d').strftime('%m/%d/%Y')
             watermark = f"BMP {row[1]} - {abbrevs[row[2]]} - {row[3]}"
             files[row[0]] = {
-                'top': {
-                    'wm': date,
-                    'x-mod': float(wmConfig['TOP']['X']),
-                    'y-mod': float(wmConfig['TOP']['Y'])
-                },
-                'bottom': {
-                    'wm': watermark,
-                    'x-mod': float(wmConfig['BOTTOM']['X']),
-                    'y-mod': float(wmConfig['BOTTOM']['Y'])
-                }
+                'top': [
+                    date,
+                    float(wmConfig['TOP']['X']),
+                    float(wmConfig['TOP']['Y'])
+                ],
+                'bottom': [
+                    watermark,
+                    float(wmConfig['BOTTOM']['X']),
+                    float(wmConfig['BOTTOM']['Y'])
+                ]
             }
     return files
