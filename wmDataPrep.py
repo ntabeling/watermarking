@@ -6,7 +6,7 @@ from datetime import datetime
 def wmDictCreator(table):
     wmConfig = configparser.ConfigParser()
     wmConfig.read('./configs/wm-location-config.ini')
-    files = {}
+    toWatermark = {}
     abbrevs = {
         'app': 'apple',
         'ora': 'orange'
@@ -18,7 +18,7 @@ def wmDictCreator(table):
             datestring = row[0].strip('.jpg')[-8:]
             date = datetime.strptime(datestring, '%Y%m%d').strftime('%m/%d/%Y')
             watermark = f"BMP {row[1]} - {abbrevs[row[2]]} - {row[3]}"
-            files[row[0]] = {
+            toWatermark[row[0]] = {
                 'top': [
                     date,
                     float(wmConfig['TOP']['X']),
@@ -30,4 +30,4 @@ def wmDictCreator(table):
                     float(wmConfig['BOTTOM']['Y'])
                 ]
             }
-    return files
+    return toWatermark
