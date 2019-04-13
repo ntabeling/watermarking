@@ -3,3 +3,4 @@
 infolder
 outfolder
 configs
+__pycache__

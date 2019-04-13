@@ -1,16 +1,16 @@
 import csv
 import configparser
 from PIL import Image, ImageDraw, ImageFont
+from wmDataPrep import wmDictCreator
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('./config.ini')
+
+files = wmDictCreator(config['PATHS']['incsv'])
 
 '''
 draw.text is where the watermark gets applied. Need to find a way to perform
-that function three times - one for each watermark.
-
-The x and y variables probably need to be set within a dict so they can be
-associated with an individual watermark.
+that function two times - once for each watermark.
 '''
 
 
@@ -39,3 +39,10 @@ with open(config['PATHS']['inCSV']) as csvfile:
         watermarktext = row[1:4]
         print(config['PATHS']['imgIn'] + row[0])
         watermark_image_with_text(row[0], row[1])
+
+'''
+for key, val in files.items():
+    for k,v in files[key].items():
+        for x,y in files[key][k].items():
+            print(f'{key}\t{k}\n\t{x}\t{y}')
+'''
