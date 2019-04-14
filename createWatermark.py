@@ -6,7 +6,7 @@ from wmDataPrep import wmDictCreator
 
 def createWatermark(filename, position, watermark, xmod, ymod):
     text = watermark
-    color = 'white'
+    color = 'black'
     fontfamily = 'arial.ttf'
     image = Image.open(config['PATHS']['imgout'] + filename).convert('RGBA')
     imageWatermark = Image.new('RGBA', image.size, (255, 255, 255, 0))
