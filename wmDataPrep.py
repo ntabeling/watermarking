@@ -8,8 +8,26 @@ def wmDictCreator(table):
     wmConfig.read('./configs/wm-location-config.ini')
     toWatermark = {}
     abbrevs = {
-        'app': 'apple',
-        'ora': 'orange'
+        'ACC': 'Access of Habitation',
+        'CS': 'Control Structure',
+        'EMB': 'Embankment',
+        'ES': 'Emergency Spillway',
+        'ERO': 'Erosion',
+        'HAB': 'Evidence Blocked',
+        'FEN': 'Fence',
+        'FOR': 'Forebay',
+        'HAZ': 'Hazards',
+        'ILL': 'Ilicit Discharges',
+        'INF': 'Inflow',
+        'LOW': 'Low Flow Orifice',
+        'MOT': 'Maintenance of Traffic',
+        'MAJ': 'Major Outfalls',
+        'OBW': 'Observation Well',
+        'OTH': 'Other Maintenance Items',
+        'OUT': 'Outfall',
+        'OV': 'Overall',
+        'RIS': 'Riser',
+        'WER': 'Weir'
     }
     with open(table) as csvfile:
         reader = csv.reader(csvfile)
@@ -17,7 +35,7 @@ def wmDictCreator(table):
         for row in reader:
             datestring = row[0].strip('.jpg')[-8:]
             date = datetime.strptime(datestring, '%Y%m%d').strftime('%m/%d/%Y')
-            watermark = f"BMP {row[1]} - {abbrevs[row[2]]} - {row[3]}"
+            watermark = f"BMP {row[1]} - {abbrevs[row[4]]} - {row[5]}"
             toWatermark[row[0]] = {
                 'top': [
                     date,
