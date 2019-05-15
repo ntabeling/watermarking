@@ -35,7 +35,10 @@ def wmDictCreator(table):
         for row in reader:
             datestring = row[0].strip('.jpg')[-8:]
             date = datetime.strptime(datestring, '%Y%m%d').strftime('%m/%d/%Y')
-            watermark = f"BMP {row[1]} - {abbrevs[row[4]]} - {row[5]}"
+            if row[5] == "":
+                watermark = f"BMP {row[1]} - {abbrevs[row[4]]}"
+            else:
+                watermark = f"BMP {row[1]} - {abbrevs[row[4]]} - {row[5]}"
             toWatermark[row[0]] = {
                 'top': [
                     date,
