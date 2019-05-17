@@ -3,8 +3,10 @@ import os
 from shutil import copyfile
 from PIL import Image, ImageDraw, ImageFont
 from wmDataPrep import wmDictCreator
+from fixOrientation import fixOrientation
 
 
+# Create Watermark function - should be broken out.
 def createWatermark(filename, position, watermark, xmod, ymod):
     text = watermark
     color = 'white'
@@ -29,13 +31,20 @@ def createWatermark(filename, position, watermark, xmod, ymod):
     wmImg.convert('RGB').save(config['PATHS']['imgOut'] + filename)
 
 
+# Set configs
 config = configparser.ConfigParser()
 config.read('./configs/config.ini')
 
+# Prepare necessary data structure using data prep function
 files = wmDictCreator(config['PATHS']['incsv'])
 
+# Set variable for problem files
 problemfiles = open(config['PATHS']['problemfiles'], 'w')
 
+# Flip photo orientations
+fixOrientation()
+
+# Watermark the photos
 for k, v in files.items():
     if os.path.isfile(config['PATHS']['imgin'] + k):
         copyfile(config['PATHS']['imgin'] + k, config['PATHS']['imgout'] + k)
