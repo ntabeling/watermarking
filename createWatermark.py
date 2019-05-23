@@ -5,6 +5,7 @@ from PIL import Image, ImageDraw, ImageFont
 from wmDataPrep import wmDictCreator
 from fixOrientation import fixOrientation
 
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # Create Watermark function - should be broken out.
 def createWatermark(filename, position, watermark, xmod, ymod):
