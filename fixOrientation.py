@@ -14,7 +14,7 @@ def fixOrientation():
 
     for photo in os.listdir(config['PATHS']['imgin']):
         try:
-            image = Image.open(photo)
+            image = Image.open(config['PATHS']['imgin'] + photo)
             for orientation in ExifTags.TAGS.keys():
                 if ExifTags.TAGS[orientation] == 'Orientation':
                     break

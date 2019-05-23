@@ -27,7 +27,8 @@ def wmDictCreator(table):
         'OUT': 'Outfall',
         'OV': 'Overall',
         'RIS': 'Riser',
-        'WER': 'Weir'
+        'WER': 'Weir',
+        '': ''
     }
     with open(table) as csvfile:
         reader = csv.reader(csvfile)
