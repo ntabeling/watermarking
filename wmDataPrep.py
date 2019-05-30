@@ -30,7 +30,7 @@ def wmDictCreator(table):
         'WER': 'Weir',
         '': ''
     }
-    with open(table) as csvfile:
+    with open(table, encoding='utf8') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
         for row in reader:
