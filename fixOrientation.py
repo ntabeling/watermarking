@@ -22,12 +22,15 @@ def fixOrientation():
 
             if exif[orientation] == 3:
                 image = image.rotate(180, expand=True)
+                image.save(photo)
             elif exif[orientation] == 6:
                 image = image.rotate(270, expand=True)
+                image.save(photo)
             elif exif[orientation] == 8:
                 image = image.rotate(90, expand=True)
-            image.save(photo)
-            image.close()
+                image.save(photo)
+            else:
+                image.close()
 
         except (AttributeError, KeyError, IndexError):
             # cases: image don't have getexif
