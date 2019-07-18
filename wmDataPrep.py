@@ -9,6 +9,7 @@ def wmDictCreator(table):
     toWatermark = {}
     abbrevs = {
         'ACC': 'Access of Habitation',
+        'ACS': 'Access',
         'CS': 'Control Structure',
         'EMB': 'Embankment',
         'ES': 'Emergency Spillway',
