@@ -28,7 +28,7 @@ def fixOrientation():
                 image.save(photo)
             elif exif[orientation] == 8:
                 image = image.rotate(90, expand=True)
-                image.save(photo)
+            image.save(config['PATHS']['imgin'] + photo)
             image.close()
 
         except (AttributeError, KeyError, IndexError):
