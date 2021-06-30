@@ -1,0 +1,6 @@
+{
+    "incsv":"~/watermarking/PhotoInfo.csv",
+    "problemfiles":"~/watermarking/outfolder/problemfiles.txt",
+    "imgin":"path/to/imgin",
+    "imgout":"path/to/imgout"
+}
