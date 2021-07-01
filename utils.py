@@ -1,6 +1,8 @@
 import json
 from datetime import datetime
 import csv
+import os
+from PIL import Image, ExifTags
 
 def wmDictCreator(table):
     toWatermark = {}
@@ -36,3 +38,34 @@ def wmDictCreator(table):
                 ]
             }
     return toWatermark
+
+def fixOrientation():
+    config = configparser.ConfigParser()
+    config.read('./configs/config.ini')
+
+    config = './configs/template.json'
+    with open(config,"r") as x:
+        config = json.load(x)
+
+    for photo in os.listdir(config['imgin']):
+        try:
+            image = Image.open(os.path.join(config['imgin'], photo))
+            for orientation in ExifTags.TAGS.keys():
+                if ExifTags.TAGS[orientation] == 'Orientation':
+                    break
+            exif = dict(image._getexif().items())
+
+            if exif[orientation] == 3:
+                image = image.rotate(180, expand=True)
+                image.save(photo)
+            elif exif[orientation] == 6:
+                image = image.rotate(270, expand=True)
+                image.save(photo)
+            elif exif[orientation] == 8:
+                image = image.rotate(90, expand=True)
+                image.save(photo)
+            image.close()
+
+        except (AttributeError, KeyError, IndexError):
+            # cases: image don't have getexif
+            pass
