@@ -1,0 +1,6 @@
+{
+    "incsv":"./watermarking/WatermarkerSamples/PhotoInfo.csv",
+    "problemfiles":"./watermarking/outfolder/problemfiles.txt",
+    "imgin":"./watermarking/WatermarkerSamples",
+    "imgout":"./watermarking/outfolder"
+}

@@ -4,14 +4,14 @@ import csv
 import os
 from PIL import Image, ExifTags, ImageDraw, ImageFont
 
-def wmDictCreator(table):
+def wm_dict_creator(table):
     toWatermark = {}
     
-    abbrevs = "./configs/abbreviations.json"
+    abbrevs = "~/repos/watermarking/configs/abbreviations.json"
     with open(abbrevs,"r") as x:
         abbrevs = json.load(x)
 
-    wmConfig = "./configs/watermark.json"
+    wmConfig = "~/repos/watermarking/configs/watermark.json"
     with open(wmConfig,"r") as x:
         wmConfig = json.load(x)
 
@@ -19,8 +19,7 @@ def wmDictCreator(table):
         reader = csv.reader(csvfile)
         next(reader)
         for row in reader:
-            datestring = row[0].strip('.jpg')[-8:]
-            date = datetime.strptime(datestring, '%Y%m%d').strftime('%m/%d/%Y')
+            date = datetime.strptime(row[0].strip('.jpg')[-8:],'%Y%m%d').strftime('%m/%d/%Y')
             if row[5] == "":
                 watermark = f"BMP {row[1]} - {abbrevs[row[4]]}"
             else:
@@ -39,8 +38,8 @@ def wmDictCreator(table):
             }
     return toWatermark
 
-def fixOrientation():
-    config = './configs/template.json'
+def fix_orientation():
+    config = '~/repos/watermarking/configs/paths.json'
     with open(config,"r") as x:
         config = json.load(x)
 
@@ -67,8 +66,8 @@ def fixOrientation():
             # cases: image don't have getexif
             pass
 
-def createWatermark(filename, position, watermark, xmod, ymod):
-    config = './config/template.json'
+def create_watermark(filename, position, watermark, xmod, ymod):
+    config = '~/repos/watermarking/config/paths.json'
     with open(config,"r") as x:
         config = json.load(x)
     

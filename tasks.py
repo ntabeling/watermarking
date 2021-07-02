@@ -1,23 +1,23 @@
-from utils import wmDictCreator, fixOrientation, createWatermark
+from utils import wm_dict_creator, fix_orientation, create_watermark
 
 def watermarkPhotos():
     ImageFile.LOAD_TRUNCATED_IMAGES = True
 
-    config = './configs/template.json'
+    config = '~/repos/watermarking/configs/paths.json'
     with open(config,"r") as x:
         config = json.load(x)
 
-    files = wmDictCreator(config['incsv'])
+    files = wm_dict_creator(config['incsv'])
 
     problemfiles = open(config['problemfiles'], 'w')
 
-    fixOrientation()
+    fix_orientation()
 
     for k, v in files.items():
         if os.path.isfile(config['imgin'] + k):
             copyfile(os.path.join(config['imgin'],k), os.path.join(config['imgout'],k))
             for key, val in files[k].items():
-                createWatermark(k, key, val[0], val[1], val[2])
+                create_watermark(k, key, val[0], val[1], val[2])
         else:
             problemfiles.write(f'{k}\n')
 
