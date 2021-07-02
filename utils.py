@@ -2,85 +2,103 @@ import json
 from datetime import datetime
 import csv
 import os
+import shutil
 from PIL import Image, ExifTags, ImageDraw, ImageFont
 
 def wm_dict_creator(table):
     toWatermark = {}
     
-    abbrevs = "~/repos/watermarking/configs/abbreviations.json"
+    abbrevs = "/Users/ntabeling/repos/watermarking/configs/abbreviations.json"
     with open(abbrevs,"r") as x:
         abbrevs = json.load(x)
 
-    wmConfig = "~/repos/watermarking/configs/watermark.json"
+    wmConfig = "/Users/ntabeling/repos/watermarking/configs/watermark.json"
     with open(wmConfig,"r") as x:
         wmConfig = json.load(x)
 
-    with open(table, encoding='utf8') as csvfile:
+    with open(table, encoding="utf8") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
         for row in reader:
-            date = datetime.strptime(row[0].strip('.jpg')[-8:],'%Y%m%d').strftime('%m/%d/%Y')
+            date = datetime.strptime(row[0].strip(".jpg")[-8:],"%Y%m%d").strftime("%m/%d/%Y")
             if row[5] == "":
                 watermark = f"BMP {row[1]} - {abbrevs[row[4]]}"
             else:
                 watermark = f"BMP {row[1]} - {abbrevs[row[4]]} - {row[5]}"
             toWatermark[row[0]] = {
-                'top': [
+                "top": [
                     date,
-                    float(wmConfig['TOP']['X']),
-                    float(wmConfig['TOP']['Y'])
+                    float(wmConfig["TOP"]["X"]),
+                    float(wmConfig["TOP"]["Y"])
                 ],
-                'bottom': [
+                "bottom": [
                     watermark,
-                    float(wmConfig['BOTTOM']['X']),
-                    float(wmConfig['BOTTOM']['Y'])
+                    float(wmConfig["BOTTOM"]["X"]),
+                    float(wmConfig["BOTTOM"]["Y"])
                 ]
             }
     return toWatermark
 
-def fix_orientation():
-    config = '~/repos/watermarking/configs/paths.json'
+def unpack_dirs():
+    config = "/Users/ntabeling/repos/watermarking/configs/paths.json"
     with open(config,"r") as x:
         config = json.load(x)
 
-    for photo in os.listdir(config['imgin']):
-        try:
-            image = Image.open(os.path.join(config['imgin'], photo))
-            for orientation in ExifTags.TAGS.keys():
-                if ExifTags.TAGS[orientation] == 'Orientation':
-                    break
-            exif = dict(image._getexif().items())
+    indir = config["imgin"]
+    for x in os.listdir(indir):
+        if os.path.isdir(os.path.join(indir,x)):
+            p = os.path.join(indir,x)
+            for y in os.listdir(p):
+                src = os.path.join(p,y)
+                print(src)
+                dst = os.path.join(indir,y)
+                print(dst)
+                shutil.copy(src, dst)
 
-            if exif[orientation] == 3:
-                image = image.rotate(180, expand=True)
-                image.save(photo)
-            elif exif[orientation] == 6:
-                image = image.rotate(270, expand=True)
-                image.save(photo)
-            elif exif[orientation] == 8:
-                image = image.rotate(90, expand=True)
-                image.save(photo)
-            image.close()
+def fix_orientation():
+    config = "/Users/ntabeling/repos/watermarking/configs/paths.json"
+    with open(config,"r") as x:
+        config = json.load(x)
 
-        except (AttributeError, KeyError, IndexError):
-            # cases: image don't have getexif
-            pass
+    for photo in os.listdir(config["imgin"]):
+        if os.path.isfile(os.path.join(config["imgin"],photo)) and photo[-4:] != ".csv":
+            try:
+                image = Image.open(os.path.join(config["imgin"], photo))
+                for orientation in ExifTags.TAGS.keys():
+                    if ExifTags.TAGS[orientation] == "Orientation":
+                        break
+                exif = dict(image._getexif().items())
+
+                if exif[orientation] == 3:
+                    image = image.rotate(180, expand=True)
+                    image.save(photo)
+                elif exif[orientation] == 6:
+                    image = image.rotate(270, expand=True)
+                    image.save(photo)
+                elif exif[orientation] == 8:
+                    image = image.rotate(90, expand=True)
+                    image.save(photo)
+                image.close()
+
+            except (AttributeError, KeyError, IndexError):
+                # cases: image don"t have getexif
+                pass
 
 def create_watermark(filename, position, watermark, xmod, ymod):
-    config = '~/repos/watermarking/config/paths.json'
+    config = "/Users/ntabeling/repos/watermarking/configs/paths.json"
     with open(config,"r") as x:
         config = json.load(x)
     
     text = watermark
-    color = 'white'
-    fontfamily = 'arial.ttf'
-    image = Image.open(os.path.join(config['imgout'],filename)).convert('RGBA')
-    imageWatermark = Image.new('RGBA', image.size, (255, 255, 255, 0))
+    color = "white"
+    fontfamily = "arial.ttf"
+    image = Image.open(os.path.join(config["imgout"],filename)).convert("RGBA")
+    imageWatermark = Image.new("RGBA", image.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(imageWatermark)
     width, height = image.size
     font = ImageFont.truetype(fontfamily, int(height / 20))
     textWidth, textHeight = draw.textsize(text, font)
-    if position == 'bottom':
+    if position == "bottom":
         x = (width - textWidth)/2
         y = height * ymod
         box = [x, y, (x+textWidth), (y+textHeight)]
@@ -88,7 +106,10 @@ def create_watermark(filename, position, watermark, xmod, ymod):
         x = width * xmod
         y = height * ymod
         box = [x, y, (x+textWidth), (y+textHeight)]
-    draw.rectangle(box, fill='black', outline='black', width=0)
+    draw.rectangle(box, fill="black", outline="black", width=0)
     draw.text((x, y), text, color, font)
     wmImg = Image.alpha_composite(image, imageWatermark)
-    wmImg.convert('RGB').save(config['PATHS']['imgOut'] + filename)
+    wmImg.convert("RGB").save(config["PATHS"]["imgOut"] + filename)
+
+if __name__ == "__main__":
+    unpack_dirs()
