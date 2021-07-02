@@ -50,9 +50,7 @@ def unpack_dirs():
             p = os.path.join(indir,x)
             for y in os.listdir(p):
                 src = os.path.join(p,y)
-                print(src)
                 dst = os.path.join(indir,y)
-                print(dst)
                 shutil.copy(src, dst)
 
 def fix_orientation():
@@ -110,6 +108,3 @@ def create_watermark(filename, position, watermark, xmod, ymod):
     draw.text((x, y), text, color, font)
     wmImg = Image.alpha_composite(image, imageWatermark)
     wmImg.convert("RGB").save(config["PATHS"]["imgOut"] + filename)
-
-if __name__ == "__main__":
-    unpack_dirs()
