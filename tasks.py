@@ -1,6 +1,7 @@
 from utils import wm_dict_creator, fix_orientation, create_watermark, unpack_dirs
 from PIL import ImageFile
 import json
+import os
 
 def watermarkPhotos():
     ImageFile.LOAD_TRUNCATED_IMAGES = True
