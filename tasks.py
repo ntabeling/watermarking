@@ -1,0 +1,31 @@
+from utils import wm_dict_creator, fix_orientation, create_watermark, unpack_dirs
+from PIL import ImageFile
+import json
+import os
+import shutil
+
+def watermarkPhotos():
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
+
+    config = "/Users/ntabeling/repos/watermarking/configs/paths.json"
+    with open(config,"r") as x:
+        config = json.load(x)
+
+    files = wm_dict_creator(config["incsv"])
+
+    problemfiles = open(config["problemfiles"], "w")
+
+    unpack_dirs()
+
+    fix_orientation()
+
+    for k, v in files.items():
+        if os.path.isfile(os.path.join(config["imgin"], k)):
+            shutil.move(os.path.join(config["imgin"],k), os.path.join(config["imgout"],k))
+            for key, val in files[k].items():
+                create_watermark(os.path.join(config["imgout"],k), key, val[0], val[1], val[2])
+        else:
+            problemfiles.write(f"{k}\n")
+
+if __name__ == "__main__":
+    watermarkPhotos()

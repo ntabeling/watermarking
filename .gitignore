@@ -1,5 +1,6 @@
-.vscode
-infolder
+venv
+WatermarkerSamples.zip
+WatermarkerSamples
 outfolder
 __pycache__
-config.ini
+.DS_Store
