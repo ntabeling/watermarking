@@ -13,3 +13,7 @@ There are some ignored files that contributors will need to create before gettin
 
 ### Note about the watermark config
 X and Y are a percentage of the total height and width of the image to be watermarked. (0,0) is the upper left hand corner of the image.
+
+### Note about running the watermarker task
+When the task is run on MacOS a .DS_Store file is created that is causing the task to fail on the first run. It needs to
+be deleted before the task is run again. Working to find a permanent resolution

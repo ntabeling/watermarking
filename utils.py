@@ -89,7 +89,7 @@ def create_watermark(filename, position, watermark, xmod, ymod):
     
     text = watermark
     color = "white"
-    fontfamily = "arial.ttf"
+    fontfamily = "/System/Library/Fonts/Supplemental/arial.ttf"
     image = Image.open(os.path.join(config["imgout"],filename)).convert("RGBA")
     imageWatermark = Image.new("RGBA", image.size, (255, 255, 255, 0))
     draw = ImageDraw.Draw(imageWatermark)
@@ -107,4 +107,4 @@ def create_watermark(filename, position, watermark, xmod, ymod):
     draw.rectangle(box, fill="black", outline="black", width=0)
     draw.text((x, y), text, color, font)
     wmImg = Image.alpha_composite(image, imageWatermark)
-    wmImg.convert("RGB").save(config["PATHS"]["imgOut"] + filename)
+    wmImg.convert("RGB").save(filename)
